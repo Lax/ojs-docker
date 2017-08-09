@@ -1,0 +1,20 @@
+version: '3.2'
+services:
+  ojs:
+    build: .
+    ports:
+      - 8000:8000
+    links:
+      - db
+    depends_on:
+      - db
+    volumes:
+      - ./files:/var/ojs_home/files
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: ""
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./data:/var/lib/postgresql/data
