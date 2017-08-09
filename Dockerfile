@@ -16,7 +16,7 @@ WORKDIR $WORK_DIR
 RUN git submodule update --init --recursive
 RUN cd lib/pkp && composer update
 RUN cd plugins/paymethod/paypal && composer update
-RUN cp config.TEMPLATE.inc.php config.inc.php
 RUN npm install && npm run build
 EXPOSE 8000
+RUN cp config.TEMPLATE.inc.php config.inc.php
 CMD ["php", "-S", "0.0.0.0:8000"]
