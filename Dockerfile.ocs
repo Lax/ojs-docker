@@ -1,0 +1,17 @@
+FROM debian:jessie
+ENV HOME_DIR /var/ocs_home
+ENV WORK_DIR /var/ocs_home/src
+
+RUN apt-get update -qq \
+    && apt-get install -qq -y --no-install-recommends git ca-certificates php5-cli php5-pgsql \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd -m -d $HOME_DIR -s /bin/bash ocs
+USER ocs
+
+RUN git clone -b ocs-dev-2_3 https://github.com/Lax/ocs.git $WORK_DIR
+WORKDIR $WORK_DIR
+RUN git submodule update --init --recursive
+RUN cp config.TEMPLATE.inc.php config.inc.php
+EXPOSE 8000
+CMD ["php", "-S", "0.0.0.0:8000"]
