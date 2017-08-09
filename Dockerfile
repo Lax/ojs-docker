@@ -3,7 +3,7 @@ ENV HOME_DIR /var/ojs_home
 ENV WORK_DIR /var/ojs_home/src
 
 RUN apt-get update -qq \
-    && apt-get install -qq -y --no-install-recommends curl gnupg git composer phpunit php-curl php-dom php-zip \
+    && apt-get install -qq -y --no-install-recommends curl gnupg git composer phpunit php-curl php-dom php-zip php-pgsql \
     && curl -sL http://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -qq -y --no-install-recommends nodejs && rm -rf /var/lib/apt/lists/* \
     && npm install npm@latest -g
@@ -18,4 +18,5 @@ RUN cd lib/pkp && composer update
 RUN cd plugins/paymethod/paypal && composer update
 RUN cp config.TEMPLATE.inc.php config.inc.php
 RUN npm install && npm run build
+EXPOSE 8000
 CMD ["php", "-S", "0.0.0.0:8000"]
